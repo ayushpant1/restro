@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.retro.retroapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.retro.retroapp"
