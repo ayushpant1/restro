@@ -29,17 +29,17 @@ jobs:
           architecture: x64
           distribution: 'temurin'
 
-      # Step 3: Install dependencies (e.g., Gradle, or dependencies needed for your tests)
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
-          # If you're using Gradle, you might need to install dependencies
-          ./gradlew build
+          chmod +x ./gradlew  # Make gradlew executable
+          ./gradlew build     # Install dependencies (you can adjust this if needed)
 
       # Step 4: Run tests with coverage
       - name: Run tests with coverage
         run: |
-          # Run unit tests and generate a coverage report in XML format
-          ./gradlew testDebugUnitTest --coverage
+          chmod +x ./gradlew  # Ensure gradlew is executable
+          ./gradlew testDebugUnitTest --coverage  # Run tests with coverage (adjust if needed)
 
       # Step 5: Upload coverage report to Codecov
       - name: Upload coverage to Codecov
@@ -48,4 +48,3 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}  # Ensure the token is added to your repo secrets
           files: coverage/coverage.xml  # Path to your coverage report file
           flags: unittests  # Optional, can be used to label the coverage
-
