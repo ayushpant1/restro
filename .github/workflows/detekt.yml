@@ -41,6 +41,13 @@ jobs:
     name: Scan
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    
+     # Set the required permissions for the workflow
+    permissions:
+      contents: read       # Read repository contents
+      actions: read        # Read action files
+      issues: write        # Write access to issues (required for SARIF uploads)
+      security-events: write  # Write access to security events (required for code scanning alerts)
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
