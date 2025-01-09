@@ -1,28 +1,51 @@
-name: Run tests and upload coverage
+name: Run Android Tests and Upload Coverage
 
-on: 
-  push
+on:
+  push:
+    branches:
+      - main  # Or any branch you want to trigger the workflow for
 
 jobs:
   test:
-    name: Run tests and collect coverage
+    name: Run Android tests and collect coverage
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Ensures the entire commit history is fetched
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      # Set up Java (required for Android builds)
+      - name: Set up Java 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          java-package: jdk
+          architecture: x64
+          distribution: 'temurin'
 
-      - name: Install dependencies
-        run: pip install pytest pytest-cov
+      # Set up Android SDK
+      - name: Set up Android SDK
+        uses: reactivecircus/android-emulator-action@v2
+        with:
+          api-level: 30   # Set the API level you want to test against
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: true
+          emulator-options: -no-window -gpu off
 
-      - name: Run tests
-        run: pytest --cov-branch --cov-report=xml
+      # Install dependencies (e.g., Gradle)
+      - name: Install Gradle
+        uses: gradle/wrapper-validation-action@v1
 
-      - name: Upload results to Codecov
+      # Run Android tests (unit tests and/or instrumentation tests)
+      - name: Run unit tests with coverage
+        run: ./gradlew testDebugUnitTest --coverage
+
+      # Upload coverage report to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/coverage.xml   # Make sure the report path is correct
