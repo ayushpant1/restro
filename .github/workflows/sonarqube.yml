@@ -47,6 +47,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
          java-version: '17'
+         java-package: jdk
+         architecture: x64
+         distribution: 'adoptopenjdk'  # Specify the JDK distribution (e.g., adoptopenjdk, zulu, amazon-corretto)
+         check-latest: false
          
       - name: Analyze with SonarQube
 
