@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.retro.retroapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -80,4 +80,5 @@ dependencies {
 
     //additional dependencies
     implementation(libs.androidx.multidex)
+    implementation(libs.androidx.core.splashscreen)
 }
