@@ -56,6 +56,10 @@ jobs:
          architecture: x64
          distribution: 'temurin'  # Specify the JDK distribution (e.g., adoptopenjdk, zulu, amazon-corretto)
          check-latest: false
+
+      # Step 5: Verify Java Version (for debugging)
+      - name: Verify Java Version
+        run: java -version
          
       - name: Analyze with SonarQube
 
