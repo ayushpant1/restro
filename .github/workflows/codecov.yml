@@ -26,19 +26,34 @@ jobs:
           architecture: x64
           distribution: 'temurin'
 
-      # Step 3: Set up Android SDK
-      - name: Set up Android SDK
-        uses: android-actions/setup-android-sdk@v2
-        with:
-          api-level: 30  # Set the API level you want to test against
-          target: google_apis
-          arch: x86_64
-          force-avd-creation: true
-          emulator-options: -no-window -gpu off
+      # Step 3: Install Android SDK
+      - name: Install Android SDK
+        run: |
+          # Install required dependencies
+          sudo apt update
+          sudo apt install -y wget unzip lib32stdc++6 lib32z1
 
-      # Step 4: Install Gradle
-      - name: Install Gradle
-        uses: gradle/wrapper-validation-action@v1
+          # Download and install Android SDK tools
+          wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
+          unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk
+
+          # Install necessary SDK components (e.g., platforms and system images)
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses
+          sdkmanager --update
+          sdkmanager "platforms;android-30" "system-images;android-30;google_apis;x86_64" "build-tools;30.0.3"
+
+      # Step 4: Set up Android Emulator
+      - name: Set up Android Emulator
+        run: |
+          # Create and start an Android Emulator
+          echo no | avdmanager create avd --name test --package "system-images;android-30;google_apis;x86_64" --force
+          nohup emulator -avd test -no-window -no-skin -gpu off &
+
+          # Wait for the emulator to boot up
+          adb wait-for-device
 
       # Step 5: Run unit tests with coverage using Gradle
       - name: Run unit tests with coverage
