@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    jacoco
 }
 
 android {
@@ -44,7 +45,32 @@ android {
     room {
         schemaDirectory("$projectDir/schemas")
     }
+
+
 }
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
+}
+
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("test")
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
+
+
+
+
+
 
 dependencies {
 
