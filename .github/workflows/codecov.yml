@@ -1,0 +1,50 @@
+name: Run Tests and Upload Coverage to Codecov
+
+on:
+  push:
+    branches:
+      - main  # Or any branch you want to trigger the workflow for
+  pull_request:
+    branches:
+      - main  # Trigger on PRs to main branch
+
+jobs:
+  test:
+    name: Run tests and collect coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures the entire commit history is fetched
+
+      # Step 2: Set up Java 17 (required for Android and Java-based testing)
+      - name: Set up Java 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          java-package: jdk
+          architecture: x64
+          distribution: 'temurin'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          chmod +x ./gradlew  # Make gradlew executable
+          ./gradlew build     # Install dependencies (you can adjust this if needed)
+
+      # Step 4: Run tests with coverage
+      - name: Run tests with coverage
+        run: |
+          chmod +x ./gradlew  # Ensure gradlew is executable
+          ./gradlew testDebugUnitTest --coverage  # Run tests with coverage (adjust if needed)
+
+      # Step 5: Upload coverage report to Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}  # Ensure the token is added to your repo secrets
+          files: coverage/coverage.xml  # Path to your coverage report file
+          flags: unittests  # Optional, can be used to label the coverage
