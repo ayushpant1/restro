@@ -52,5 +52,5 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}  # Ensure the token is added to your repo secrets
-          files: build/jacoco/testDebugUnitTest.exec  # Path to the JaCoCo coverage file
+          files: build/reports/jacoco/testDebugUnitTest.exec  # Path to the JaCoCo coverage file
           flags: unittests  # Optional, can be used to label the coverage
