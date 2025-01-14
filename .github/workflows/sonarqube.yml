@@ -60,6 +60,9 @@ jobs:
       # Step 5: Verify Java Version (for debugging)
       - name: Verify Java Version
         run: java -version
+
+      - name: Set JAVA_HOME
+        run: echo "JAVA_HOME=/usr/lib/jvm/java-17-temurin" >> $GITHUB_ENV
          
       - name: Analyze with SonarQube
 
