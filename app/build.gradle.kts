@@ -69,10 +69,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 }
 
 
-
-
-
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -90,6 +86,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.jupiter.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 
     // Dependency Injection
     implementation(libs.hilt.android)
