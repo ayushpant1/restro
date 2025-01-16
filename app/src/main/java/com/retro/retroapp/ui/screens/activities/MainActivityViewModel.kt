@@ -13,7 +13,6 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor() : ViewModel() {
     private val _isLoading = MutableStateFlow(true)
     val isLoading get() = _isLoading.asStateFlow()
-
     init {
         viewModelScope.launch {
             delay(500)
