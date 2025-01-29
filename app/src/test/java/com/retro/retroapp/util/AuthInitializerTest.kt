@@ -1,7 +1,9 @@
 import android.content.Context
 import androidx.startup.Initializer
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.retro.retroapp.BuildConfig
+import com.retro.retroapp.util.AuthInitializer
 import com.retro.retroapp.util.DebugHelper
 import com.retro.retroapp.util.FirestoreInitializer
 import io.mockk.every
@@ -15,26 +17,26 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 
-class FirestoreInitializerTest {
+class AuthInitializerTest {
 
-    private lateinit var firestoreInitializer: FirestoreInitializer
+    private lateinit var authInitializer: AuthInitializer
     private lateinit var mockContext: Context
-    private lateinit var mockFirestore: FirebaseFirestore
+    private lateinit var mockFirebaseAuth: FirebaseAuth
 
     @BeforeEach
     fun setUp() {
-        firestoreInitializer = FirestoreInitializer()
+        authInitializer = AuthInitializer()
         mockContext = mockk(relaxed = true)
-        mockFirestore = mockk(relaxed = true)
+        mockFirebaseAuth = mockk(relaxed = true)
 
         // Mock Firestore static instance
-        mockkStatic(FirebaseFirestore::class)
-        every { FirebaseFirestore.getInstance() } returns mockFirestore
+        mockkStatic(FirebaseAuth::class)
+        every { FirebaseAuth.getInstance() } returns mockFirebaseAuth
     }
 
     @Test
     fun `test Firestore instance is created`() {
-        val firestore = firestoreInitializer.create(mockContext)
+        val firestore = authInitializer.create(mockContext)
         assertNotNull(firestore)
     }
 
@@ -43,14 +45,9 @@ class FirestoreInitializerTest {
         mockkObject(DebugHelper)
         every { DebugHelper.isDebug } returns true
 
-        firestoreInitializer.create(mockContext)
+        authInitializer.create(mockContext)
 
-        verify {
-            mockFirestore.useEmulator(
-                BuildConfig.FIRESTORE_EMULATOR_HOST,
-                BuildConfig.FIRESTORE_EMULATOR_PORT
-            )
-        }
+        verify { mockFirebaseAuth.useEmulator(BuildConfig.AUTH_EMULATOR_HOST, BuildConfig.AUTH_EMULATOR_PORT) }
     }
 
     @Test
@@ -58,15 +55,14 @@ class FirestoreInitializerTest {
         mockkObject(DebugHelper)
         every { DebugHelper.isDebug } returns false
 
-        firestoreInitializer.create(mockContext)
+        authInitializer.create(mockContext)
 
-        verify(exactly = 0) { mockFirestore.useEmulator(any(), any()) }
+        verify(exactly = 0) { mockFirebaseAuth.useEmulator(any(), any()) }
     }
 
     @Test
     fun `test dependencies returns empty list`() {
-        val dependencies: MutableList<Class<out Initializer<*>>> =
-            firestoreInitializer.dependencies()
+        val dependencies: MutableList<Class<out Initializer<*>>> = authInitializer.dependencies()
         assertTrue(dependencies.isEmpty()) // Verify the list is empty
     }
 }

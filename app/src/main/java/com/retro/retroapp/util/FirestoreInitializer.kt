@@ -13,7 +13,7 @@ class FirestoreInitializer : Initializer<FirebaseFirestore> {
     override fun create(context: Context): FirebaseFirestore {
         val firestore = Firebase.firestore
         // Use emulators only in debug builds
-        if (BuildConfig.DEBUG) {
+        if (DebugHelper.isDebug) {
             firestore.useEmulator(FIRESTORE_EMULATOR_HOST, FIRESTORE_EMULATOR_PORT)
         }
         return firestore
