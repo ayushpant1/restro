@@ -1,5 +1,6 @@
-![CI Status](https://img.shields.io/github/workflow/status/ayushpant1/restro/android.yml)
-
+![CI Status](https://github.com/ayushpant1/restro/actions/workflows/android.yml/badge.svg)
+![Sonar Status](https://github.com/ayushpant1/restro/actions/workflows/sonarqube.yml/badge.svg)
+![detekt Status](https://github.com/ayushpant1/restro/actions/workflows/detekt.yml/badge.svg)
 
 # restro
 restro is an android application used to order food in local market
