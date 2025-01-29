@@ -21,6 +21,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "FIRESTORE_EMULATOR_HOST", "\"${project.properties["FIRESTORE_EMULATOR_HOST"]}\"")
+        buildConfigField("int", "FIRESTORE_EMULATOR_PORT", "${project.properties["FIRESTORE_EMULATOR_PORT"]}")
+        buildConfigField("String", "AUTH_EMULATOR_HOST", "\"${project.properties["AUTH_EMULATOR_HOST"]}\"")
+        buildConfigField("int", "AUTH_EMULATOR_PORT", "${project.properties["AUTH_EMULATOR_PORT"]}")
     }
 
     buildTypes {
@@ -56,6 +60,7 @@ jacoco {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    include("**/*Test*")
     finalizedBy("jacocoTestReport")
 }
 
@@ -92,6 +97,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     testImplementation(libs.jupiter.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.mockk)
 
     // Dependency Injection
     implementation(libs.hilt.android)

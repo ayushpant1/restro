@@ -6,14 +6,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.retro.retroapp.BuildConfig
+import com.retro.retroapp.BuildConfig.FIRESTORE_EMULATOR_HOST
+import com.retro.retroapp.BuildConfig.FIRESTORE_EMULATOR_PORT
 
 class FirestoreInitializer : Initializer<FirebaseFirestore> {
-
-    // The host '10.0.2.2' is a special IP address to let the
-    // Android emulator connect to 'localhost'.
-    private val FIRESTORE_EMULATOR_HOST = "10.0.2.2"
-    private val FIRESTORE_EMULATOR_PORT = 8081
-
     override fun create(context: Context): FirebaseFirestore {
         val firestore = Firebase.firestore
         // Use emulators only in debug builds

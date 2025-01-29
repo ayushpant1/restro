@@ -6,12 +6,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.retro.retroapp.BuildConfig
+import com.retro.retroapp.BuildConfig.AUTH_EMULATOR_HOST
+import com.retro.retroapp.BuildConfig.AUTH_EMULATOR_PORT
 
 class AuthInitializer : Initializer<FirebaseAuth> {
-    // Android emulator connect to 'localhost'.
-    private val AUTH_EMULATOR_HOST = "10.0.2.2"
-    private val AUTH_EMULATOR_PORT = 9099
-
     override fun create(context: Context): FirebaseAuth {
         val firebaseAuth = Firebase.auth
         // Use emulators only in debug builds
