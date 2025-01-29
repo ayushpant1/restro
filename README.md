@@ -1,4 +1,4 @@
-![GitHub Actions Status](https://img.shields.io/github/workflow/status/ayushpant1/restro/Android%20CI)
+![CI Status](https://img.shields.io/github/workflow/status/ayushpant1/restro/android.yml)
 
 
 # restro
