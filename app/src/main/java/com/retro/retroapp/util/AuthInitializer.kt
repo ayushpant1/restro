@@ -8,7 +8,7 @@ import com.google.firebase.ktx.Firebase
 import com.retro.retroapp.BuildConfig.AUTH_EMULATOR_HOST
 import com.retro.retroapp.BuildConfig.AUTH_EMULATOR_PORT
 
-class AuthInitializer() : Initializer<FirebaseAuth> {
+class AuthInitializer : Initializer<FirebaseAuth> {
     override fun create(context: Context): FirebaseAuth {
         val firebaseAuth = Firebase.auth
         // Use emulators only in debug builds

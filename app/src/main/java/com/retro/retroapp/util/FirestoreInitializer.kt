@@ -5,7 +5,6 @@ import androidx.startup.Initializer
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.retro.retroapp.BuildConfig
 import com.retro.retroapp.BuildConfig.FIRESTORE_EMULATOR_HOST
 import com.retro.retroapp.BuildConfig.FIRESTORE_EMULATOR_PORT
 
